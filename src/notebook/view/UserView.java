@@ -22,7 +22,7 @@ public class UserView {
             if (com == Commands.EXIT) return;
             switch (com) {
                 case CREATE:
-                    User u = createUser();
+                    User u = UserController.createUser();
                     userController.saveUser(u);
                     break;
                 case READ:
@@ -37,21 +37,23 @@ public class UserView {
                     break;
                 case UPDATE:
                     String userId = prompt("Enter user id: ");
-                    userController.updateUser(userId, createUser());
+                    userController.updateUser(userId, UserController.createUser());
+                    break;
+                case  DELETE:
+                    Long userID = Long.parseLong(prompt("Enter user id: "));
+                    userController.deleteUser(userID);
+                case LIST:
+                    System.out.println(userController.readAll());
+                    break;
             }
         }
     }
 
-    private String prompt(String message) {
+    public static String prompt(String message) {
         Scanner in = new Scanner(System.in);
         System.out.print(message);
         return in.nextLine();
     }
 
-    private User createUser() {
-        String firstName = prompt("Имя: ");
-        String lastName = prompt("Фамилия: ");
-        String phone = prompt("Номер телефона: ");
-        return new User(firstName, lastName, phone);
-    }
+
 }
